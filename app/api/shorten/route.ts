@@ -21,6 +21,19 @@ export async function POST(request: NextRequest) {
         }
 
         // 2. Generate unique ID with collision handling
+        // Rate limit check
+        try {
+            const ipOrKey = request.headers.get('x-forwarded-for') || 'global';
+            const rl = await ratelimit.limit(ipOrKey as string);
+            if (!rl || !rl.success) {
+                return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
+            }
+        } catch (err) {
+            // If the rate limiter fails, log and continue with caution
+            console.error('Rate limiter error:', err);
+        }
+
+        // 2. Generate unique ID with collision handling
         let shortId = generateShortId();
         let retries = 3;
         let isUnique = false;

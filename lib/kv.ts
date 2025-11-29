@@ -1,6 +1,11 @@
 import { createClient } from 'redis';
 
-const redis = await createClient({ url: process.env.REDIS_URL }).connect();
+const redis = createClient({ url: process.env.REDIS_URL });
+// Don't attempt to connect during Jest tests to avoid side-effects in the test
+// environment (Jest sets NODE_ENV to 'test'). Connect in non-test runtimes.
+if (process.env.NODE_ENV !== 'test') {
+    redis.connect().catch((err) => console.error('Redis Connection Error:', err));
+}
 
 export interface UrlMapping {
     url: string;

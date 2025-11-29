@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")"/_/husky.sh
+
+# Run linter, formatter check, and tests on commit. If any command fails, the commit is aborted.
+
+echo "Running eslint..."
+npm run lint --silent
+
+echo "Running prettier check..."
+npm run format:check --silent
+
+echo "Running tests..."
+npm test --silent
