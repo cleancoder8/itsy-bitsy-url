@@ -1,65 +1,81 @@
-import Image from "next/image";
+import { ShortenForm } from '@/components/ShortenForm';
+import { ShieldCheck, Zap, Globe } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-[#fcfcfc]">
+      {/* Navbar */}
+      <nav className="flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
+        <div className="text-xl font-bold tracking-tight text-gray-900">
+          ItsyBitsy
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+        <a
+          href="https://github.com/cleancoder8/itsy-bitsy-url"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+        >
+          GitHub
+        </a>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative px-6 pt-20 pb-32 lg:pt-32 lg:pb-40 max-w-7xl mx-auto text-center">
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white opacity-70" />
+
+        <h1 className="text-5xl md:text-7xl font-semibold tracking-tight text-gray-900 mb-6 max-w-4xl mx-auto">
+          Shorten your links, <br className="hidden md:block" />
+          <span className="text-gray-500">expand your reach.</span>
+        </h1>
+
+        <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+          A simple, privacy-focused URL shortener designed for performance.
+          No tracking pixels, no ads, just your link.
+        </p>
+
+        <ShortenForm />
+      </section>
+
+      {/* Features / How it works */}
+      <section className="px-6 py-24 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12">
+            <FeatureCard
+              icon={<Zap className="w-6 h-6 text-amber-500" />}
+              title="Lightning Fast"
+              description="Powered by Vercel Edge Network and KV for millisecond redirects worldwide."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <FeatureCard
+              icon={<ShieldCheck className="w-6 h-6 text-blue-500" />}
+              title="Secure & Reliable"
+              description="Generated using UUID v4 and cryptographically secure encoding."
+            />
+            <FeatureCard
+              icon={<Globe className="w-6 h-6 text-emerald-500" />}
+              title="Global Scale"
+              description="Built on serverless infrastructure that scales automatically with your traffic."
+            />
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Footer */}
+      <footer className="px-6 py-12 text-center text-gray-500 text-sm border-t border-gray-100">
+        <p>© {new Date().getFullYear()} ItsyBitsy URL. Open source.</p>
+      </footer>
+    </main>
+  );
+}
+
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <div className="flex flex-col items-start gap-4 p-6 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
+      <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+        {icon}
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
     </div>
   );
 }
