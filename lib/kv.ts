@@ -1,4 +1,6 @@
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
+
+const redis = await createClient({ url: process.env.REDIS_URL }).connect();
 
 export interface UrlMapping {
     url: string;
@@ -18,23 +20,24 @@ export async function saveUrlMapping(shortId: string, url: string): Promise<void
         clicks: 0,
     };
     // Store the mapping
-    await kv.set(`short:${shortId}`, mapping);
+    await redis.set(`short:${shortId}`, JSON.stringify(mapping));
 }
 
 /**
  * Retrieves a URL mapping from Vercel KV.
  */
 export async function getUrlMapping(shortId: string): Promise<UrlMapping | null> {
-    return await kv.get<UrlMapping>(`short:${shortId}`);
+    const mapping = await redis.get(`short:${shortId}`);
+    return mapping ? JSON.parse(mapping) as UrlMapping : null;
 }
 
 /**
  * Checks if a short ID already exists.
  */
 export async function shortIdExists(shortId: string): Promise<boolean> {
-    const exists = await kv.exists(`short:${shortId}`);
+    const exists = await redis.exists(`short:${shortId}`);
     return exists === 1;
 }
 
 // Re-export kv for direct access if needed
-export { kv };
+export { redis };
