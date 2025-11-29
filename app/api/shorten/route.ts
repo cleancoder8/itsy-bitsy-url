@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateShortId } from '@/lib/shortId';
 import { saveUrlMapping, shortIdExists } from '@/lib/kv';
+import { ratelimit } from '@/lib/ratelimit';
 
 export async function POST(request: NextRequest) {
     try {

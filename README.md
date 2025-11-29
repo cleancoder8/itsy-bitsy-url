@@ -1,11 +1,12 @@
 # Itsy Bitsy URL Shortener
 
-A production-ready URL shortener built with Next.js, TypeScript, **Vercel Blob**, and Tailwind CSS.
+A production-ready URL shortener built with Next.js, TypeScript, **Vercel KV**, and Tailwind CSS.
 
 ## Features
 
 - **Short ID Generation**: Uses UUID v4 -> Base64 -> Trimmed to 10 chars for secure, collision-resistant IDs.
-- **Data Storage**: Powered by **Vercel Blob** (Object Storage).
+- **Data Storage**: Powered by **Vercel KV** (Redis).
+- **Rate Limiting**: Implemented using **Upstash Ratelimit** (backed by Vercel KV).
 - **Modern Design**: Clean, minimal aesthetic inspired by Anthropic.
 - **Performance**: Built on Next.js App Router.
 
@@ -25,15 +26,15 @@ A production-ready URL shortener built with Next.js, TypeScript, **Vercel Blob**
 
 ### Local Development Setup
 
-To run this app locally, you need to connect it to a Vercel Blob store.
+To run this app locally, you need to connect it to a Vercel KV instance.
 
 1. **Create a Vercel Project**:
    - Go to your Vercel Dashboard.
    - Create a new project or use an existing one.
 
-2. **Create a Blob Store**:
+2. **Create a KV Database**:
    - In your Vercel project, go to the "Storage" tab.
-   - Click "Create Database" and select **Blob**.
+   - Click "Create Database" and select **KV**.
    - Follow the prompts to create it.
 
 3. **Link Local Project**:
@@ -46,7 +47,7 @@ To run this app locally, you need to connect it to a Vercel Blob store.
      ```bash
      vercel env pull .env.local
      ```
-   - This will download `BLOB_READ_WRITE_TOKEN` to `.env.local`.
+   - This will download `KV_REST_API_URL` and `KV_REST_API_TOKEN` to `.env.local`.
 
 4. **Run the Development Server**:
    ```bash
@@ -58,7 +59,7 @@ To run this app locally, you need to connect it to a Vercel Blob store.
 
 1. Push your code to the GitHub repository.
 2. Import the repository in Vercel.
-3. Ensure the Blob store is connected to the project in Vercel.
+3. Ensure the KV database is connected to the project in Vercel.
 4. Vercel will automatically deploy the app.
 
 ## Project Structure
@@ -66,7 +67,8 @@ To run this app locally, you need to connect it to a Vercel Blob store.
 - `app/`: Next.js App Router pages and API routes.
 - `lib/`: Utility functions.
   - `shortId.ts`: ID generation logic.
-  - `kv.ts`: Vercel Blob client and helpers (Note: named `kv.ts` for legacy reasons, but uses Blob).
+  - `kv.ts`: Vercel KV client and helpers.
+  - `ratelimit.ts`: Rate limiting logic.
 - `components/`: React components.
 
 ## API
