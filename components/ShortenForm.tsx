@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Copy, ArrowRight, Loader2, Check } from 'lucide-react';
-import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 export function ShortenForm() {
@@ -32,8 +31,12 @@ export function ShortenForm() {
       }
 
       setResult(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(String(err));
+      }
     } finally {
       setIsLoading(false);
     }

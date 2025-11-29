@@ -7,7 +7,7 @@ echo "Running eslint..."
 npm run lint --silent
 
 echo "Running prettier check..."
-npm run format:check --silent
+npm run format --silent
 
 echo "Running tests..."
 npm test --silent
