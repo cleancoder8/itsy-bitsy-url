@@ -1,5 +1,5 @@
-import { getUrlMapping } from '@/lib/kv';
-import { redirect, notFound } from 'next/navigation';
+import { getUrlMapping } from "@/lib/kv";
+import { redirect, notFound } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ shortId: string }>;

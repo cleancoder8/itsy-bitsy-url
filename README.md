@@ -29,15 +29,18 @@ A production-ready URL shortener built with Next.js, TypeScript, **Vercel KV**, 
 To run this app locally, you need to connect it to a Vercel KV instance.
 
 1. **Create a Vercel Project**:
+
    - Go to your Vercel Dashboard.
    - Create a new project or use an existing one.
 
 2. **Create a KV Database**:
+
    - In your Vercel project, go to the "Storage" tab.
    - Click "Create Database" and select **KV**.
    - Follow the prompts to create it.
 
 3. **Link Local Project**:
+
    - Install Vercel CLI: `npm i -g vercel`
    - Link your project:
      ```bash
@@ -76,6 +79,7 @@ To run this app locally, you need to connect it to a Vercel KV instance.
 ### POST /api/shorten
 
 Request body:
+
 ```json
 {
   "url": "https://example.com/very/long/url"
@@ -83,6 +87,7 @@ Request body:
 ```
 
 Response:
+
 ```json
 {
   "shortId": "abc123xyz",

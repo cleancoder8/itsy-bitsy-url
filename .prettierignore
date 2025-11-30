@@ -1,0 +1,25 @@
+# build / next output
+.next
+out
+build
+
+# coverage + reports
+coverage
+lcov.info
+
+# tests, mocks and generated test output
+**/*.test.*
+**/*.spec.*
+__tests__/
+__mocks__/
+
+# compiled / bundled / runtime artifacts
+node_modules
+dist
+
+# editor and OS files
+.vscode
+.DS_Store
+
+# static / public assets (optional if you don't want Prettier touching these)
+public

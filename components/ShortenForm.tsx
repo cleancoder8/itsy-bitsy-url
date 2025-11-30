@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Copy, ArrowRight, Loader2, Check } from 'lucide-react';
-import { twMerge } from 'tailwind-merge';
+import { useState } from "react";
+import { Copy, ArrowRight, Loader2, Check } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 export function ShortenForm() {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ shortUrl: string; originalUrl: string } | null>(null);
+  const [result, setResult] = useState<{
+    shortUrl: string;
+    originalUrl: string;
+  } | null>(null);
   const [copied, setCopied] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,16 +21,16 @@ export function ShortenForm() {
     setResult(null);
 
     try {
-      const res = await fetch('/api/shorten', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/shorten", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong');
+        throw new Error(data.error || "Something went wrong");
       }
 
       setResult(data);
@@ -64,7 +67,9 @@ export function ShortenForm() {
               "w-full px-6 py-4 text-lg bg-white border-2 rounded-xl outline-none transition-all duration-200",
               "placeholder:text-gray-400 text-gray-900",
               "focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
-              error ? "border-red-300 focus:border-red-500 focus:ring-red-500/10" : "border-gray-200"
+              error
+                ? "border-red-300 focus:border-red-500 focus:ring-red-500/10"
+                : "border-gray-200"
             )}
           />
           <button

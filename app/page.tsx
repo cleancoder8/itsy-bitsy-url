@@ -1,5 +1,5 @@
-import { ShortenForm } from '@/components/ShortenForm';
-import { ShieldCheck, Zap, Globe } from 'lucide-react';
+import { ShortenForm } from "@/components/ShortenForm";
+import { ShieldCheck, Zap, Globe } from "lucide-react";
 
 export default function Home() {
   return (
@@ -30,8 +30,8 @@ export default function Home() {
         </h1>
 
         <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-          A simple, privacy-focused URL shortener designed for performance.
-          No tracking pixels, no ads, just your link.
+          A simple, privacy-focused URL shortener designed for performance. No
+          tracking pixels, no ads, just your link.
         </p>
 
         <ShortenForm />
@@ -68,7 +68,15 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="flex flex-col items-start gap-4 p-6 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
       <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
