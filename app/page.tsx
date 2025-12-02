@@ -7,7 +7,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
         <div className="text-xl font-bold tracking-tight text-gray-900">
-          ItsyBitsy
+          Itsy Bitsy
         </div>
         <a
           href="https://github.com/cleancoder8/itsy-bitsy-url"
