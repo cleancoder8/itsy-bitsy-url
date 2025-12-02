@@ -13,6 +13,7 @@ export function ShortenForm() {
     originalUrl: string;
   } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [qrCopied, setQrCopied] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,6 +127,82 @@ export function ShortenForm() {
             </div>
             <div className="mt-2 text-sm text-gray-500 truncate">
               Original: {result.originalUrl}
+            </div>
+
+            {/* QR Code section */}
+            <div className="mt-4 flex flex-col md:flex-row items-start md:items-center gap-4">
+              {/* Use a public QR image generator to avoid extra dependencies. */}
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                  result.shortUrl
+                )}`}
+                alt="QR code"
+                className="w-40 h-40 bg-white border rounded-md"
+              />
+
+              <div className="flex flex-col gap-2">
+                <a
+                  href={`https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(
+                    result.shortUrl
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                >
+                  Open QR (larger)
+                </a>
+                <div className="flex flex-row items-center gap-2">
+                  <button
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(
+                          `https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(
+                            result.shortUrl
+                          )}`
+                        );
+                        setQrCopied(true);
+                        setTimeout(() => setQrCopied(false), 2000);
+                      } catch {
+                        // ignore clipboard failures
+                      }
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm"
+                  >
+                    {qrCopied ? "Link copied" : "Copy QR link"}
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(
+                        result.shortUrl
+                      )}`;
+                      try {
+                        const res = await fetch(qrUrl);
+                        if (!res.ok) {
+                          throw new Error(`Failed to fetch QR: ${res.status}`);
+                        }
+                        const blob = await res.blob();
+                        const objectUrl = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = objectUrl;
+                        // include a short file name using the short URL
+                        const fileName = `itsybitsy-qr.png`;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        // revoke after a short delay to ensure download started
+                        setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
+                      } catch {
+                        // If fetch/download fails, we silently ignore. The user said they'll handle CORS.
+                      }
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
+                  >
+                    Download QR
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

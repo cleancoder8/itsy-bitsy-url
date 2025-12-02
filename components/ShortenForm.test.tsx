@@ -53,6 +53,9 @@ describe('ShortenForm (client)', () => {
 
     expect(screen.getByText('http://localhost/abc')).toBeInTheDocument();
 
+  // QR image should be rendered using the public QR service
+  expect(screen.getByAltText(/QR code/i)).toBeInTheDocument();
+
     const copyBtn = screen.getByTitle(/Copy to clipboard/i);
     fireEvent.click(copyBtn);
 
